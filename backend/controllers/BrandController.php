@@ -8,6 +8,7 @@ use yii\web\UploadedFile;
 
 class BrandController extends \yii\web\Controller
 {
+    public $enableCsrfValidation=false;//关闭跨域验证
     public function actionIndex()
     {
         $query=Brand::find();
@@ -23,14 +24,14 @@ class BrandController extends \yii\web\Controller
         $request=\Yii::$app->request;
         if ($request->isPost){
             $model->load($request->post());
-            $model->imgFile=UploadedFile::getInstance($model,'imgFile');
+//            $model->imgFile=UploadedFile::getInstance($model,'imgFile');
             if ($model->validate()){
-                if ($model->imgFile){
-                    $file="/upload/brand/".uniqid().".".$model->imgFile->extension;
-                    if ($model->imgFile->saveAs(\Yii::getAlias("@webroot").$file,0)){
-                        $model->logo=$file;
-                    }
-                }
+//                if ($model->imgFile){
+//                    $file="/upload/brand/".uniqid().".".$model->imgFile->extension;
+//                    if ($model->imgFile->saveAs(\Yii::getAlias("@webroot").$file,0)){
+//                        $model->logo=$file;
+//                    }
+//                }
                 $model->is_deleted=0;
                 $model->save();
                 \Yii::$app->session->setFlash('success','添加成功');
@@ -47,14 +48,14 @@ class BrandController extends \yii\web\Controller
         $request=\Yii::$app->request;
         if ($request->isPost){
             $model->load($request->post());
-            $model->imgFile=UploadedFile::getInstance($model,'imgFile');
+//            $model->imgFile=UploadedFile::getInstance($model,'imgFile');
             if ($model->validate()){
-                if ($model->imgFile){
+                /*if ($model->imgFile){
                     $file="/upload/brand/".uniqid().".".$model->imgFile->extension;
                     if ($model->imgFile->saveAs(\Yii::getAlias("@webroot").$file,0)){
                         $model->logo=$file;
                     }
-                }
+                }*/
                 $model->is_deleted=0;
                 $model->save();
                 \Yii::$app->session->setFlash('success','修改成功');
@@ -76,6 +77,17 @@ class BrandController extends \yii\web\Controller
         }else{
             var_dump($model->getErrors());exit;
         }
-
+    }
+    //处理Web Uploader上传图片
+    public function actionUpload(){
+        //实例化上传文件类
+        $imgFile=UploadedFile::getInstanceByName('file');
+        $file='/upload/brand/'.uniqid().".".$imgFile->extension;
+        if ($imgFile->saveAs(\Yii::getAlias('@webroot').$file,0)){
+            //返回路径
+            return  json_encode([
+                'url'=>$file
+            ]);
+        };
     }
 }

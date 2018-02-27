@@ -17,9 +17,9 @@
         <td><?=$brand->sort?></td>
         <td><?=$brand->is_deleted?"删除":"正常"?></td>
         <td><?php if($brand->is_deleted){
-
-            }else{echo \yii\bootstrap\Html::a('修改',['brand/edit','id'=>$brand->id],['class'=>'btn btn-info']);
-        echo \yii\bootstrap\Html::a('删除',['brand/delete','id'=>$brand->id],['class'=>'btn btn-info']);}?></td>
+                echo \yii\bootstrap\Html::a('恢复',null,['class'=>'btn btn-warning']);
+            }else{echo \yii\bootstrap\Html::a('修改',['brand/edit','id'=>$brand->id],['class'=>'btn btn-warning']);
+        echo \yii\bootstrap\Html::a('删除',['brand/delete','id'=>$brand->id],['class'=>'btn btn-danger']);}?></td>
     </tr>
     <?php endforeach;?>
     <tr>

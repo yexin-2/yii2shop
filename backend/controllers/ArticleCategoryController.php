@@ -1,5 +1,5 @@
 <?php
-//文章
+//文章分类
 namespace backend\controllers;
 
 use backend\models\ArticleCategory;
