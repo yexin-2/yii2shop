@@ -48,7 +48,7 @@ class Brand extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => '名称',
             'intro' => '简介',
-            'imgFile' => 'LOGO图片',
+            'logo' => 'LOGO图片',
             'sort' => '排序',
             'is_deleted' => '状态(0正常 1删除)',
         ];

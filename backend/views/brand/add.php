@@ -3,6 +3,8 @@ $form=\yii\bootstrap\ActiveForm::begin();
 echo $form->field($model,'name')->textInput();
 echo $form->field($model,'intro')->textarea();
 echo $form->field($model,'logo')->hiddenInput();
+
+//使用webupload插件
 /**
  * @var $this \yii\web\View
  */

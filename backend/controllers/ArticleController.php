@@ -79,6 +79,7 @@ class ArticleController extends \yii\web\Controller
         $model2=ArticleDetail::findOne(['article_id'=>$id]);
         return $this->render('look',['model'=>$model,'model2'=>$model2]);
     }
+    //使用百度ueditor文本编辑器插件
     public function actions()
     {
         return [
