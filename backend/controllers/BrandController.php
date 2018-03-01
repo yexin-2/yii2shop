@@ -13,7 +13,7 @@ class BrandController extends \yii\web\Controller
     public $enableCsrfValidation=false;//关闭跨域验证
     public function actionIndex()
     {
-        $query=Brand::find();
+        $query=Brand::find()->where(['is_deleted'=>0]);
         $pager=new Pagination();
         $pager->totalCount=$query->count();
         $pager->defaultPageSize=3;

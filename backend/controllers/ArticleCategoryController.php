@@ -9,7 +9,7 @@ class ArticleCategoryController extends \yii\web\Controller
 {
     public function actionIndex()
     {
-        $query=ArticleCategory::find();
+        $query=ArticleCategory::find()->where(['is_deleted'=>0]);
         $pager=new Pagination();
         $pager->totalCount=$query->count();
         $pager->defaultPageSize=3;

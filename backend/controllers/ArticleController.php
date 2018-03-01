@@ -25,11 +25,11 @@ class ArticleController extends \yii\web\Controller
         if ($request->isPost){
             $model->load($request->post());
             $model2->load($request->post());
-            if ($model->validate()){
+            if ($model->validate()&&$model2->validate()){
                 $model->is_deleted=0;
                 $model->create_time=time();
                 $model->save();
-                $model2->article_id=$model->attributes['id'];///得到上次插入的id
+                $model2->article_id=$model->id;///得到上次插入的id
                 $model2->save();
                 \Yii::$app->session->setFlash('success','添加成功');
                 return $this->redirect(['article/index']);
@@ -47,10 +47,8 @@ class ArticleController extends \yii\web\Controller
         if ($request->isPost){
             $model->load($request->post());
             $model2->load($request->post());
-            if ($model->validate()){
-                $model->is_deleted=0;
+            if ($model->validate()&&$model2->validate()){
                 $model->save();
-                $model2->article_id=$model->attributes['id'];
                 $model2->save();
                 \Yii::$app->session->setFlash('success','修改成功');
                 return $this->redirect(['article/index']);
@@ -85,6 +83,9 @@ class ArticleController extends \yii\web\Controller
         return [
             'upload' => [
                 'class' => 'kucha\ueditor\UEditorAction',
+                'config' => [
+                    "imageUrlPrefix"  => "http://admin.yii2shop.com",//图片访问路径前缀
+                ],
             ]
         ];
     }
