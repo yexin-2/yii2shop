@@ -1,8 +1,7 @@
 <?php
 $form=\yii\bootstrap\ActiveForm::begin();
-echo $form->field($model,'name')->textInput();
-echo $form->field($model,'intro')->textarea();
-echo $form->field($model,'logo')->hiddenInput();
+echo $form->field($model,'goods_id')->dropDownList(\backend\models\Goods::getGoods());
+echo $form->field($model,'path')->hiddenInput();
 //使用webupload插件
 /**
  * @var $this \yii\web\View
@@ -48,16 +47,15 @@ var uploader = WebUploader.create({
 uploader.on( 'uploadSuccess', function( file,response ) {
     var imgFile=response.url;
     $("#photo").attr('src',imgFile);
-    $("#brand-logo").val(imgFile);
+    $("#goodsgallery-path").val(imgFile);
 });
 JS
 );
-if ($model->logo==""){
+if ($model->path==""){
     echo "<img id='photo' width='200px' >";
 }else{
-    echo "<img id='photo' width='200px' src='{$model->logo}'>";
+    echo "<img id='photo' width='200px' src='{$model->path}'>";
 }
-
-echo $form->field($model,'sort')->textInput();
+echo "<br>";
 echo "<button type='submit' class='btn btn-primary'>".($model->getIsNewRecord()?'添加':'更新')."</button>";
 \yii\bootstrap\ActiveForm::end();

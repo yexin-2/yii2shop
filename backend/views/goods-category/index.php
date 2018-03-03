@@ -17,7 +17,7 @@
         <td><?=$goodsCategory->lft?></td>
         <td><?=$goodsCategory->rgt?></td>
         <td><?=$goodsCategory->depth?></td>
-        <td><?=$goodsCategory->name?></td>
+        <td><?php for($i=0;$i<=$goodsCategory->depth;$i++){echo "-";}echo $goodsCategory->name?></td>
         <td><?=$goodsCategory->parent_id?></td>
         <td><?=$goodsCategory->intro?></td>
         <td><?=\yii\bootstrap\Html::a('修改',['goods-category/edit','id'=>$goodsCategory->id],['class'=>'btn btn-warning'])?><?=\yii\bootstrap\Html::a('删除',['goods-category/delete','id'=>$goodsCategory->id],['class'=>'btn btn-danger'])?></td>

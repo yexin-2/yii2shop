@@ -84,7 +84,7 @@ class BrandController extends \yii\web\Controller
     public function actionUpload(){
         //实例化上传文件类
         $imgFile=UploadedFile::getInstanceByName('file');
-        $file='/upload/brand/'.uniqid().".".$imgFile->extension;
+        $file='/upload/'.uniqid().".".$imgFile->extension;
         $imgFile->saveAs(\Yii::getAlias('@webroot').$file,0);
 
         //上传七牛云

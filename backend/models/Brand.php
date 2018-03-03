@@ -53,4 +53,12 @@ class Brand extends \yii\db\ActiveRecord
             'is_deleted' => '状态(0正常 1删除)',
         ];
     }
+    public static function getBrand(){
+        $brand=Brand::find()->all();
+        $arr=[];
+        foreach ($brand as $value){
+            $arr[$value->id]=$value->name;
+        }
+        return $arr;
+    }
 }
