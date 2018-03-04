@@ -4,7 +4,6 @@
         <th>树id</th>
         <th>左值</th>
         <th>右值</th>
-        <th>层级</th>
         <th>名称</th>
         <th>上级分类id</th>
         <th>简介</th>
@@ -16,7 +15,6 @@
         <td><?=$goodsCategory->tree?></td>
         <td><?=$goodsCategory->lft?></td>
         <td><?=$goodsCategory->rgt?></td>
-        <td><?=$goodsCategory->depth?></td>
         <td><?php for($i=0;$i<=$goodsCategory->depth;$i++){echo "-";}echo $goodsCategory->name?></td>
         <td><?=$goodsCategory->parent_id?></td>
         <td><?=$goodsCategory->intro?></td>

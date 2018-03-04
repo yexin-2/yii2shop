@@ -1,9 +1,11 @@
+<tbody id="g_tbody">
 <?php foreach ($goodsGallerys as $goodsGallery):?>
     <tr>
         <td><?=\yii\bootstrap\Html::img($goodsGallery->path,['width'=>'100px'])?>
             <?=\yii\bootstrap\Html::a('删除',['goods/pic-del','id'=>$goodsGallery->id,'ord_id'=>$ord_id],['class'=>'btn btn-danger'])?></td><!--传一个删除用的id和回显用的id-->
     </tr>
 <?php endforeach;?>
+</tbody>
 <?php
 $form=\yii\bootstrap\ActiveForm::begin();
 echo $form->field($model,'path')->hiddenInput();
@@ -54,7 +56,13 @@ uploader.on( 'uploadSuccess', function( file,response ) {
 var imgFile=response.url;
 // $("#photo").attr('src',imgFile);
 // $("#goodsgallery-path").val(imgFile);
-$.post("{$ajaxUrl}", { path: imgFile, goods_id: $ord_id }, "json");//ajax提交能实现多文件上传
+$.post("{$ajaxUrl}", { path: imgFile, goods_id: $ord_id },function(v) {
+    var img="";
+  $("#g_tbody").each(function(){
+      img.="<img id='photo' width='200px' >";
+      var tr="<img id='photo' width='200px' >";
+ });
+}, "json");//ajax提交能实现多文件上传
 location.reload();//页面刷新
 });
 JS

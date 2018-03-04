@@ -1,5 +1,5 @@
 <?php
-
+//商品相册
 namespace backend\controllers;
 
 use backend\models\GoodsGallery;

@@ -1,5 +1,5 @@
 <?php
-
+//商品
 namespace backend\controllers;
 
 use backend\models\Goods;
@@ -19,6 +19,7 @@ class GoodsController extends \yii\web\Controller
         $pager->totalCount=$query->count();
         $pager->defaultPageSize=3;
         $goods=$query->offset($pager->offset)->limit($pager->limit)->all();
+        //分页
         $model=new GoodsSearch();
         $request=\Yii::$app->request;
         if ($request->isGet){
