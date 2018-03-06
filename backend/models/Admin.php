@@ -22,6 +22,11 @@ use yii\web\IdentityInterface;
  */
 class Admin extends \yii\db\ActiveRecord implements IdentityInterface
 {
+    //定义场景
+    const SCENARIO_ADD ='add';
+    const SCENARIO_EDIT ='edit';
+    //保存输入的未加密密码
+    public $password;
     /**
      * @inheritdoc
      */
@@ -36,13 +41,16 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password_hash', 'email','status'], 'required'],
+            [['username', 'email','status'], 'required'],
             [['status', 'created_at', 'updated_at', 'last_login_time'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email', 'last_login_ip'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
+            //设置不同的验证方法
+            ['password','required','on'=>[self::SCENARIO_ADD]],
+            ['password','safe','on'=>[self::SCENARIO_EDIT]],
         ];
     }
 
@@ -63,6 +71,7 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
             'updated_at' => 'Updated At',
             'last_login_time' => '最后登录时间',
             'last_login_ip' => '最后登陆ip字段',
+            'password'=>'密码',
         ];
     }
 
@@ -115,7 +124,7 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function getAuthKey()
     {
-        // TODO: Implement getAuthKey() method.
+        return $this->auth_key;
     }
 
     /**
@@ -128,6 +137,6 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        // TODO: Implement validateAuthKey() method.
+        return $this->auth_key==$authKey;
     }
 }

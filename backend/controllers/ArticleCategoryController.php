@@ -63,5 +63,15 @@ class ArticleCategoryController extends \yii\web\Controller
         }
 
     }
-
+    //ajax删除
+    public function actionAjaxDel($id){
+        $model=ArticleCategory::findOne(['id'=>$id]);
+        if ($model!=null){
+            $model->is_deleted=1;
+            $model->save();
+            return json_encode('yes');
+        }else{
+            return json_encode('no');
+        }
+    }
 }

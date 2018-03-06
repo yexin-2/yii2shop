@@ -119,6 +119,17 @@ class GoodsController extends \yii\web\Controller
         \Yii::$app->session->setFlash('success','删除成功');
         return $this->redirect(['goods/index']);
     }
+    //ajax删除
+    public function actionAjaxDel($id){
+        $model=Goods::findOne(['id'=>$id]);
+        if ($model!=null){
+            $model->status=0;
+            $model->save();
+            return json_encode('yes');
+        }else{
+            return json_encode('no');
+        }
+    }
     //查看相册
     public function actionPic($id){
         $goodsGallerys=GoodsGallery::find()->where(['goods_id'=>$id])->all();

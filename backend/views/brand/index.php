@@ -9,7 +9,7 @@
         <th>操作</th>
     </tr>
     <?php foreach ($brands as $brand):?>
-    <tr>
+    <tr date-id="<?=$brand->id?>">
         <td><?=$brand->id?></td>
         <td><?=$brand->name?></td>
         <td><?=$brand->intro?></td>
@@ -19,7 +19,7 @@
         <td><?php if($brand->is_deleted){
                 echo \yii\bootstrap\Html::a('恢复',null,['class'=>'btn btn-warning']);
             }else{echo \yii\bootstrap\Html::a('修改',['brand/edit','id'=>$brand->id],['class'=>'btn btn-warning']);
-        echo \yii\bootstrap\Html::a('删除',['brand/delete','id'=>$brand->id],['class'=>'btn btn-danger']);}?></td>
+        echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del']);}?></td>
     </tr>
     <?php endforeach;?>
     <tr>
@@ -30,3 +30,20 @@
 echo \yii\widgets\LinkPager::widget([
     'pagination'=>$pager
 ]);
+/**
+ * @var $this \yii\web\View
+ */
+$url=\yii\helpers\Url::to(['brand/ajax-del']);
+$this->registerJs(<<<JS
+    $('.del').click(function() {
+        if (confirm('你确定删除吗?')){
+            var tr=$(this).closest('tr');
+            $.get('{$url}',{'id':tr.attr('date-id')},function(v) {
+              if (v=='yes'){
+                  tr.fadeOut();
+              }
+            },'json')
+        }
+    })
+JS
+);

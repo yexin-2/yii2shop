@@ -24,12 +24,16 @@ class AdminController extends \yii\web\Controller
     //添加
     public function actionAdd(){
         $model=new Admin();
+        //应用场景
+        $model->scenario=Admin::SCENARIO_ADD;
         $request=\Yii::$app->request;
         if ($request->isPost){
             $model->load($request->post());
             if ($model->validate()){
                 $model->created_at=time();
-                $model->password_hash=\Yii::$app->security->generatePasswordHash($model->password_hash);
+                $model->password_hash=\Yii::$app->security->generatePasswordHash($model->password);
+                //生成随机字符串
+                $model->auth_key=\Yii::$app->security->generateRandomString();
                 $model->save();
                 \Yii::$app->session->setFlash('success','添加成功');
                 return $this->redirect(['admin/index']);
@@ -42,12 +46,13 @@ class AdminController extends \yii\web\Controller
     //修改
     public function actionEdit($id){
         $model=Admin::findOne(['id'=>$id]);
+        //应用场景
+        $model->scenario=Admin::SCENARIO_EDIT;
         $request=\Yii::$app->request;
         if ($request->isPost){
             $model->load($request->post());
             if ($model->validate()){
                 $model->updated_at=time();
-                $model->password_hash=\Yii::$app->security->generatePasswordHash($model->password_hash);
                 $model->save();
                 \Yii::$app->session->setFlash('success','修改成功');
                 return $this->redirect(['admin/index']);
@@ -66,18 +71,18 @@ class AdminController extends \yii\web\Controller
     }
     //登录
     public function actionLogin(){
-        //验证cookie
-        $cookies = \Yii::$app->request->cookies;
-        if ($cookies->has('id')&&$cookies->has('password_hash')){
-            $admin=Admin::findOne(['id'=>$cookies->getValue('id')]);
-            if ($admin){
-                //用户名存在
-                if ($cookies->getValue('password_hash')==$admin->password_hash){
-                    //密码正确
-                    \Yii::$app->user->login($admin);//保存登录信息
-                }
-            }
-        }
+//        //验证cookie
+//        $cookies = \Yii::$app->request->cookies;
+//        if ($cookies->has('id')&&$cookies->has('password_hash')){
+//            $admin=Admin::findOne(['id'=>$cookies->getValue('id')]);
+//            if ($admin){
+//                //用户名存在
+//                if ($cookies->getValue('password_hash')==$admin->password_hash){
+//                    //密码正确
+//                    \Yii::$app->user->login($admin);//保存登录信息
+//                }
+//            }
+//        }
         $model=new LoginForm();
         $request=\Yii::$app->request;
         if ($request->isPost){
@@ -149,8 +154,6 @@ class AdminController extends \yii\web\Controller
                     }else{
                         \Yii::$app->session->setFlash('danger','两次密码不一致');
                     }
-                }else{
-                    var_dump($model->getErrors());exit;
                 }
             }
             return $this->render('editPwd',['model'=>$model]);
@@ -169,6 +172,16 @@ class AdminController extends \yii\web\Controller
                     \Yii::$app->user->login($admin);//保存登录信息
                 }
             }
+        }
+    }
+    //ajax删除
+    public function actionAjaxDel($id){
+        $model=Admin::findOne(['id'=>$id]);
+        if ($model!=null){
+            $model->delete();
+            return json_encode('yes');
+        }else{
+            return json_encode('no');
         }
     }
     //配置过滤器

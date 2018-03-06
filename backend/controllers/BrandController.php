@@ -80,6 +80,17 @@ class BrandController extends \yii\web\Controller
             var_dump($model->getErrors());exit;
         }
     }
+    //ajax删除
+    public function actionAjaxDel($id){
+        $model=Brand::findOne(['id'=>$id]);
+        if ($model!=null){
+            $model->is_deleted=1;
+            $model->save();
+            return json_encode('yes');
+        }else{
+            return json_encode('no');
+        }
+    }
     //处理Web Uploader上传图片
     public function actionUpload(){
         //实例化上传文件类

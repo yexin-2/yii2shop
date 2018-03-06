@@ -71,6 +71,17 @@ class ArticleController extends \yii\web\Controller
         }
 
     }
+    //ajax删除
+    public function actionAjaxDel($id){
+        $model=Article::findOne(['id'=>$id]);
+        if ($model!=null){
+            $model->is_deleted=1;
+            $model->save();
+            return json_encode('yes');
+        }else{
+            return json_encode('no');
+        }
+    }
     //查看
     public function actionLook($id){
         $model=Article::findOne(['id'=>$id]);

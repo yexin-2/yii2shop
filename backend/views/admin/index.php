@@ -11,7 +11,7 @@
         <th>操作</th>
     </tr>
     <?php foreach ($admins as $admin):?>
-        <tr>
+        <tr date-id="<?=$admin->id?>">
             <td><?=$admin->id?></td>
             <td><?=$admin->username?></td>
             <td><?=$admin->email?></td>
@@ -20,7 +20,7 @@
             <td><?=date('Y-m-d',$admin->updated_at)?></td>
             <td><?=date('Y-m-d',$admin->last_login_time)?></td>
             <td><?=$admin->last_login_ip?></td>
-            <td><?=\yii\bootstrap\Html::a('修改',['admin/edit','id'=>$admin->id],['class'=>'btn btn-warning'])?><?=\yii\bootstrap\Html::a('删除',['admin/delete','id'=>$admin->id],['class'=>'btn btn-danger'])?><?=\yii\bootstrap\Html::a('重置密码',['admin/update-pwd','id'=>$admin->id],['class'=>'btn btn-info'])?></td>
+            <td><?=\yii\bootstrap\Html::a('修改',['admin/edit','id'=>$admin->id],['class'=>'btn btn-warning'])?><?=\yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del'])?><?=\yii\bootstrap\Html::a('重置密码',['admin/update-pwd','id'=>$admin->id],['class'=>'btn btn-info'])?></td>
         </tr>
     <?php endforeach;?>
     <tr>
@@ -31,3 +31,20 @@
 echo \yii\widgets\LinkPager::widget([
     'pagination'=>$pager
 ]);
+/**
+ * @var $this \yii\web\View
+ */
+$url=\yii\helpers\Url::to(['admin/ajax-del']);
+$this->registerJs(<<<JS
+    $('.del').click(function() {
+        if (confirm('你确定删除吗?')){
+            var tr=$(this).closest('tr');
+            $.get('{$url}',{'id':tr.attr('date-id')},function(v) {
+              if (v=='yes'){
+                  tr.fadeOut();
+              }
+            },'json')
+        }
+    })
+JS
+);

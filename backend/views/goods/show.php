@@ -57,11 +57,11 @@ var imgFile=response.url;
 // $("#photo").attr('src',imgFile);
 // $("#goodsgallery-path").val(imgFile);
 $.post("{$ajaxUrl}", { path: imgFile, goods_id: $ord_id },function(v) {
-    var img="";
-  $("#g_tbody").each(function(){
-      img.="<img id='photo' width='200px' >";
-      var tr="<img id='photo' width='200px' >";
- });
+ //    var img="";
+ //  $("#g_tbody").each(function(){
+ //      img.="<img id='photo' width='200px' >";
+ //      var tr="<img id='photo' width='200px' >";
+ // });
 }, "json");//ajax提交能实现多文件上传
 location.reload();//页面刷新
 });

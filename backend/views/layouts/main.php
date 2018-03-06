@@ -37,7 +37,12 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => '文章分类', 'url' => ['/article-category/index']],
+        ['label' => '文章分类', 'url' => ['/article-category/index'],
+            'items' => [
+                ['label' => '文章添加', 'url' => ['/article-category/add']],
+                ['label' => '文章列表', 'url' => ['/article-category/index']],
+            ]
+        ],
         ['label' => '文章', 'url' => ['/article/index']],
         ['label' => '品牌', 'url' => ['/brand/index']],
         ['label' => '商品分类', 'url' => ['/goods-category/index']],

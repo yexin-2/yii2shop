@@ -8,7 +8,7 @@
         <th>操作</th>
     </tr>
     <?php foreach ($articleCategorys as $articleCategory):?>
-    <tr>
+    <tr date-id="<?=$articleCategory->id?>">
         <td><?=$articleCategory->id?></td>
         <td><?=$articleCategory->name?></td>
         <td><?=$articleCategory->intro?></td>
@@ -17,7 +17,7 @@
         <td><?php if($articleCategory->is_deleted){
 
             }else{echo \yii\bootstrap\Html::a('修改',['article-category/edit','id'=>$articleCategory->id],['class'=>'btn btn-info']);
-        echo \yii\bootstrap\Html::a('删除',['article-category/delete','id'=>$articleCategory->id],['class'=>'btn btn-info']);}?></td>
+        echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-info del']);}?></td>
     </tr>
     <?php endforeach;?>
     <tr>
@@ -28,3 +28,20 @@
 echo \yii\widgets\LinkPager::widget([
     'pagination'=>$pager
 ]);
+/**
+ * @var $this \yii\web\View
+ */
+$url=\yii\helpers\Url::to(['article-category/ajax-del']);
+$this->registerJs(<<<JS
+    $('.del').click(function() {
+        if (confirm('你确定删除吗?')){
+            var tr=$(this).closest('tr');
+            $.get('{$url}',{'id':tr.attr('date-id')},function(v) {
+              if (v=='yes'){
+                  tr.fadeOut();
+              }
+            },'json')
+        }
+    })
+JS
+);

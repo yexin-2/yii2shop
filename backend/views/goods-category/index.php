@@ -10,7 +10,7 @@
         <th>操作</th>
     </tr>
     <?php foreach ($goodsCategorys as $goodsCategory):?>
-    <tr>
+    <tr date-id="<?=$goodsCategory->id?>">
         <td><?=$goodsCategory->id?></td>
         <td><?=$goodsCategory->tree?></td>
         <td><?=$goodsCategory->lft?></td>
@@ -18,7 +18,7 @@
         <td><?php for($i=0;$i<=$goodsCategory->depth;$i++){echo "-";}echo $goodsCategory->name?></td>
         <td><?=$goodsCategory->parent_id?></td>
         <td><?=$goodsCategory->intro?></td>
-        <td><?=\yii\bootstrap\Html::a('修改',['goods-category/edit','id'=>$goodsCategory->id],['class'=>'btn btn-warning'])?><?=\yii\bootstrap\Html::a('删除',['goods-category/delete','id'=>$goodsCategory->id],['class'=>'btn btn-danger'])?></td>
+        <td><?=\yii\bootstrap\Html::a('修改',['goods-category/edit','id'=>$goodsCategory->id],['class'=>'btn btn-warning'])?><?=\yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del'])?></td>
     </tr>
     <?php endforeach;?>
     <tr>
@@ -29,3 +29,32 @@
 echo \yii\widgets\LinkPager::widget([
     'pagination'=>$pager
 ]);
+/**
+ * @var $this \yii\web\View
+ */
+$url=\yii\helpers\Url::to(['goods-category/ajax-del']);
+$this->registerJs(<<<JS
+    $('.del').click(function() {
+        if (confirm('你确定删除吗?')){
+            var tr=$(this).closest('tr');
+            $.get('{$url}',{'id':tr.attr('date-id')},function(v) {
+              if (v=='yes'){
+                  tr.fadeOut();
+              }else {
+                  // $('p').fadeIn();
+              }
+            },'json')
+        }
+    })
+    layer.confirm('您是如何看待前端开发？', {
+        btn: ['重要','奇葩'] //按钮
+    }, function(){
+    layer.msg('的确很重要', {icon: 1});
+    }, function(){
+    layer.msg('也可以这样', {
+        time: 20000, //20s后自动关闭
+        btn: ['明白了', '知道了']
+    });
+});
+JS
+);

@@ -50,7 +50,7 @@ class ArticleCategory extends \yii\db\ActiveRecord
         ];
     }
     public static function getArticleCategory(){
-        $articleCategory=ArticleCategory::find()->all();
+        $articleCategory=ArticleCategory::find()->where(['is_deleted'=>0])->all();
         $arr=[];
         foreach ($articleCategory as $value){
             $arr[$value->id]=$value->name;
