@@ -27,6 +27,7 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
     const SCENARIO_EDIT ='edit';
     //保存输入的未加密密码
     public $password;
+    public $role;
     /**
      * @inheritdoc
      */
@@ -51,6 +52,7 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
             //设置不同的验证方法
             ['password','required','on'=>[self::SCENARIO_ADD]],
             ['password','safe','on'=>[self::SCENARIO_EDIT]],
+            ['role','safe']
         ];
     }
 
@@ -72,6 +74,7 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
             'last_login_time' => '最后登录时间',
             'last_login_ip' => '最后登陆ip字段',
             'password'=>'密码',
+            'role'=>'角色',
         ];
     }
 

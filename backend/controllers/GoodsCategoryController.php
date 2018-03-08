@@ -105,16 +105,16 @@ class GoodsCategoryController extends \yii\web\Controller
         if ($child==null){
             if ($model->parent_id){
                 $model->delete();
-                \Yii::$app->session->setFlash('success','删除成功');
+//                \Yii::$app->session->setFlash('success','删除成功');
                 return json_encode('yes');
             }else{
-                \Yii::$app->session->setFlash('danger','该分类为根分类,不能删除');
+//                \Yii::$app->session->setFlash('danger','该分类为根分类,不能删除');
                 return json_encode('no');
             }
         }else{
             //$model->deleteWithChildren();删除当前节点和子孙节点
-            \Yii::$app->session->setFlash('danger','该分类下有子分类');
-            return json_encode('no');
+//            \Yii::$app->session->setFlash('danger','该分类下有子分类');
+            return json_encode('nochild');
         }
     }
 }

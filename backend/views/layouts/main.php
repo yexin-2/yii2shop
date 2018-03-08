@@ -47,7 +47,20 @@ AppAsset::register($this);
         ['label' => '品牌', 'url' => ['/brand/index']],
         ['label' => '商品分类', 'url' => ['/goods-category/index']],
         ['label' => '商品', 'url' => ['/goods/index']],
-        ['label' => '管理员', 'url' => ['/admin/index']],
+        ['label' => '管理员', 'url' => ['/admin/index'],
+            'items' => [
+                ['label' => '用户添加', 'url' => ['/admin/add']],
+                ['label' => '用户列表', 'url' => ['/admin/index']],
+            ]
+        ],
+        ['label' => 'RBAC', 'url' => ['/rbac/index'],
+            'items' => [
+                ['label' => '权限添加', 'url' => ['/rbac/add-permission']],
+                ['label' => '权限列表', 'url' => ['/rbac/index-permission']],
+                ['label' => '角色添加', 'url' => ['/rbac/add-role']],
+                ['label' => '角色列表', 'url' => ['/rbac/index-role']],
+            ]
+        ],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/admin/login']];

@@ -2,6 +2,7 @@
 //品牌
 namespace backend\controllers;
 
+use backend\filters\Rbacfilter;
 use backend\models\Brand;
 use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
@@ -132,4 +133,13 @@ class BrandController extends \yii\web\Controller
 //            ]);
 //        };
     }
+    //配置行为
+//    public function behaviors()
+//    {
+//        return [
+//            'rbac'=>[
+//                'class'=>Rbacfilter::class,
+//            ]
+//        ];
+//    }
 }

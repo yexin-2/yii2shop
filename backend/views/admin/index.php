@@ -42,6 +42,7 @@ $this->registerJs(<<<JS
             $.get('{$url}',{'id':tr.attr('date-id')},function(v) {
               if (v=='yes'){
                   tr.fadeOut();
+                  alert('删除成功');
               }
             },'json')
         }

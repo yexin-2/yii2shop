@@ -35,10 +35,15 @@ class AdminController extends \yii\web\Controller
                 //生成随机字符串
                 $model->auth_key=\Yii::$app->security->generateRandomString();
                 $model->save();
+                $authManager=\Yii::$app->authManager;
+                foreach ($model->role as $val){
+                    $role=$authManager->getRole($val);
+                    $authManager->assign($role,$model->id);
+                }
                 \Yii::$app->session->setFlash('success','添加成功');
                 return $this->redirect(['admin/index']);
             }else{
-                var_dump($model->getErrors());exit;
+//                var_dump($model->getErrors());exit;
             }
         }
         return $this->render('add',['model'=>$model]);
@@ -48,11 +53,27 @@ class AdminController extends \yii\web\Controller
         $model=Admin::findOne(['id'=>$id]);
         //应用场景
         $model->scenario=Admin::SCENARIO_EDIT;
+        //回显角色
+        $authManager=\Yii::$app->authManager;
+        $role=[];
+        foreach ($authManager->getAssignments($id) as $key=>$val){
+            $role[]=$key;
+        }
+        if ($role){
+            $model->role=$role;
+        }
         $request=\Yii::$app->request;
         if ($request->isPost){
             $model->load($request->post());
             if ($model->validate()){
                 $model->updated_at=time();
+                $authManager->revokeAll($id);//删除所有与该用户关联的角色
+                if ($model->role){
+                    foreach ($model->role as $val){
+                        $role=$authManager->getRole($val);
+                        $authManager->assign($role,$model->id);
+                    }
+                }
                 $model->save();
                 \Yii::$app->session->setFlash('success','修改成功');
                 return $this->redirect(['admin/index']);
@@ -185,27 +206,27 @@ class AdminController extends \yii\web\Controller
         }
     }
     //配置过滤器
-    public function behaviors()
-    {
-        return [
-            'filter'=>[
-                'class'=>AccessControl::className(),
-                'only'=>['edit','delete'],//加入控制
-                'rules'=>[
-                    //登录允许访问
-                    [
-                        'allow'=>true,//是否允许
-                        'actions'=>['edit','delete'],//对谁操作
-                        'roles'=>['@']//是否认证
-                    ],
-                    //都允许访问
-                    [
-                        'allow'=>true,//是否允许
-                        'actions'=>[''],//对谁操作
-                        'roles'=>['@','?']//是否认证
-                    ],
-                ]
-            ]
-        ];
-    }
+//    public function behaviors()
+//    {
+//        return [
+//            'filter'=>[
+//                'class'=>AccessControl::className(),
+//                'only'=>['edit','delete'],//加入控制
+//                'rules'=>[
+//                    //登录允许访问
+//                    [
+//                        'allow'=>true,//是否允许
+//                        'actions'=>['edit','delete'],//对谁操作
+//                        'roles'=>['@']//是否认证
+//                    ],
+//                    //都允许访问
+//                    [
+//                        'allow'=>true,//是否允许
+//                        'actions'=>[''],//对谁操作
+//                        'roles'=>['@','?']//是否认证
+//                    ],
+//                ]
+//            ]
+//        ];
+//    }
 }
