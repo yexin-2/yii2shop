@@ -11,13 +11,17 @@
         <tr date-name="<?=$role->name?>">
             <td><?=$role->name?></td>
             <td><?=$role->description?></td>
-            <td><?=\yii\bootstrap\Html::a('修改',['rbac/edit-role','name'=>$role->name],['class'=>'btn btn-warning'])?><?=\yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del'])?></td>
+            <td><?php if (\Yii::$app->user->can('rbac/edit-role')){echo \yii\bootstrap\Html::a('修改',['rbac/edit-role','name'=>$role->name],['class'=>'btn btn-warning']);}?>
+                <?php if (\Yii::$app->user->can('rbac/delete-role')){echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del']);}?></td>
         </tr>
     <?php endforeach;?>
     </tbody>
-    <tr>
-        <td colspan="3"><?=\yii\bootstrap\Html::a('添加',['rbac/add-role'],['class'=>'btn btn-info'])?></td>
-    </tr>
+<?php if (\Yii::$app->user->can('admin/add')){
+    echo '<tr>
+        <td colspan="3">'.\yii\bootstrap\Html::a('添加',['rbac/add-role'],['class'=>'btn btn-info']).'</td>
+    </tr>';
+}
+?>
 </table>
 <?php
 /**

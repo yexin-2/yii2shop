@@ -2,6 +2,7 @@
 //商品
 namespace backend\controllers;
 
+use backend\filters\Rbacfilter;
 use backend\models\Goods;
 use backend\models\GoodsCategory;
 use backend\models\GoodsDayCount;
@@ -172,6 +173,16 @@ class GoodsController extends \yii\web\Controller
                 'config' => [
                     "imageUrlPrefix"  => "http://admin.yii2shop.com",//图片访问路径前缀
                 ],
+            ]
+        ];
+    }
+    //配置行为
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>Rbacfilter::class,
+                'except'=>['upload']
             ]
         ];
     }

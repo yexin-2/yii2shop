@@ -2,6 +2,7 @@
 //管理员
 namespace backend\controllers;
 
+use backend\filters\Rbacfilter;
 use backend\models\Admin;
 use backend\models\EditPwd;
 use backend\models\LoginForm;
@@ -111,7 +112,7 @@ class AdminController extends \yii\web\Controller
             if ($model->validate()){
                 if ($model->check_login()){
                     \Yii::$app->session->setFlash('success','登录成功');
-                    return $this->redirect(['admin/index']);
+                    return $this->redirect(['site/index']);
                 }
             }else{
                 var_dump($model->getErrors());exit;
@@ -181,20 +182,20 @@ class AdminController extends \yii\web\Controller
         }
         return $this->redirect(['admin/login']);
     }
-    //验证是否有cookie
-    public function actionCookie(){
-        $cookies = \Yii::$app->request->cookies;
-        if ($cookies->has('id')&&$cookies->has('password_hash')){
-            $admin=Admin::findOne(['id'=>$cookies->getValue('id')]);
-            if ($admin){
-                //用户名存在
-                if ($cookies->getValue('password_hash')==$admin->password_hash){
-                    //密码正确
-                    \Yii::$app->user->login($admin);//保存登录信息
-                }
-            }
-        }
-    }
+//    //验证是否有cookie
+//    public function actionCookie(){
+//        $cookies = \Yii::$app->request->cookies;
+//        if ($cookies->has('id')&&$cookies->has('password_hash')){
+//            $admin=Admin::findOne(['id'=>$cookies->getValue('id')]);
+//            if ($admin){
+//                //用户名存在
+//                if ($cookies->getValue('password_hash')==$admin->password_hash){
+//                    //密码正确
+//                    \Yii::$app->user->login($admin);//保存登录信息
+//                }
+//            }
+//        }
+//    }
     //ajax删除
     public function actionAjaxDel($id){
         $model=Admin::findOne(['id'=>$id]);
@@ -229,4 +230,14 @@ class AdminController extends \yii\web\Controller
 //            ]
 //        ];
 //    }
+//配置行为
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>Rbacfilter::class,
+                'except'=>['edit-pwd','login','captcha','logout']
+            ]
+        ];
+    }
 }

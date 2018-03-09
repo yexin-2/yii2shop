@@ -37,34 +37,43 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => '文章分类', 'url' => ['/article-category/index'],
-            'items' => [
-                ['label' => '文章添加', 'url' => ['/article-category/add']],
-                ['label' => '文章列表', 'url' => ['/article-category/index']],
-            ]
-        ],
-        ['label' => '文章', 'url' => ['/article/index']],
-        ['label' => '品牌', 'url' => ['/brand/index']],
-        ['label' => '商品分类', 'url' => ['/goods-category/index']],
-        ['label' => '商品', 'url' => ['/goods/index']],
-        ['label' => '管理员', 'url' => ['/admin/index'],
-            'items' => [
-                ['label' => '用户添加', 'url' => ['/admin/add']],
-                ['label' => '用户列表', 'url' => ['/admin/index']],
-            ]
-        ],
-        ['label' => 'RBAC', 'url' => ['/rbac/index'],
-            'items' => [
-                ['label' => '权限添加', 'url' => ['/rbac/add-permission']],
-                ['label' => '权限列表', 'url' => ['/rbac/index-permission']],
-                ['label' => '角色添加', 'url' => ['/rbac/add-role']],
-                ['label' => '角色列表', 'url' => ['/rbac/index-role']],
-            ]
-        ],
+//        ['label' => '文章分类', 'url' => ['/article-category/index'],
+//            'items' => [
+//                ['label' => '文章添加', 'url' => ['/article-category/add']],
+//                ['label' => '文章列表', 'url' => ['/article-category/index']],
+//            ]
+//        ],
+//        ['label' => '文章', 'url' => ['/article/index']],
+//        ['label' => '品牌', 'url' => ['/brand/index']],
+//        ['label' => '商品分类', 'url' => ['/goods-category/index']],
+//        ['label' => '商品', 'url' => ['/goods/index']],
+//        ['label' => '管理员', 'url' => ['/admin/index'],
+//            'items' => [
+//                ['label' => '用户添加', 'url' => ['/admin/add']],
+//                ['label' => '用户列表', 'url' => ['/admin/index']],
+//            ]
+//        ],
+//        ['label' => 'RBAC', 'url' => ['/rbac/index'],
+//            'items' => [
+//                ['label' => '权限添加', 'url' => ['/rbac/add-permission']],
+//                ['label' => '权限列表', 'url' => ['/rbac/index-permission']],
+//                ['label' => '角色添加', 'url' => ['/rbac/add-role']],
+//                ['label' => '角色列表', 'url' => ['/rbac/index-role']],
+//            ]
+//        ],
+//        ['label' => '菜单列表', 'url' => ['/label/index'],
+//            'items' => [
+//                ['label' => '菜单添加', 'url' => ['/label/add']],
+//                ['label' => '菜单列表', 'url' => ['/label/index']],
+//            ]
+//        ]
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/admin/login']];
     } else {
+
+        $menuItems=\backend\models\Label::getLabel($menuItems);
+
         $menuItems[] = '<li>'
             . Html::beginForm(['/admin/logout'], 'post')
             . Html::submitButton(

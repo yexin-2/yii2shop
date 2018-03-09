@@ -2,6 +2,7 @@
 //文章
 namespace backend\controllers;
 
+use backend\filters\Rbacfilter;
 use backend\models\Article;
 use backend\models\ArticleDetail;
 use yii\data\Pagination;
@@ -97,6 +98,16 @@ class ArticleController extends \yii\web\Controller
                 'config' => [
                     "imageUrlPrefix"  => "http://admin.yii2shop.com",//图片访问路径前缀
                 ],
+            ]
+        ];
+    }
+    //配置行为
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>Rbacfilter::class,
+                'except'=>['upload']
             ]
         ];
     }

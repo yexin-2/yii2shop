@@ -18,12 +18,16 @@
         <td><?php for($i=0;$i<=$goodsCategory->depth;$i++){echo "-";}echo $goodsCategory->name?></td>
         <td><?=$goodsCategory->parent_id?></td>
         <td><?=$goodsCategory->intro?></td>
-        <td><?=\yii\bootstrap\Html::a('修改',['goods-category/edit','id'=>$goodsCategory->id],['class'=>'btn btn-warning'])?><?=\yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del'])?></td>
+        <td><?php if (\Yii::$app->user->can('goods-category/edit')){echo \yii\bootstrap\Html::a('修改',['goods-category/edit','id'=>$goodsCategory->id],['class'=>'btn btn-warning']);}?>
+            <?php if (\Yii::$app->user->can('goods-category/delete')){echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del']);}?></td>
     </tr>
     <?php endforeach;?>
-    <tr>
-        <td colspan="9"><?=\yii\bootstrap\Html::a('添加',['goods-category/add'],['class'=>'btn btn-info'])?></td>
-    </tr>
+<?php if (\Yii::$app->user->can('goods-category/add')){
+    echo '<tr>
+        <td colspan="9">'.\yii\bootstrap\Html::a('添加',['goods-category/add'],['class'=>'btn btn-info']).'</td>
+    </tr>';
+}
+?>
 </table>
 <?php
 echo \yii\widgets\LinkPager::widget([

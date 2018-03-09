@@ -16,15 +16,22 @@
         <td><?=\yii\bootstrap\Html::img($brand->logo,['width'=>'50px'])?></td>
         <td><?=$brand->sort?></td>
         <td><?=$brand->is_deleted?"删除":"正常"?></td>
-        <td><?php if($brand->is_deleted){
-                echo \yii\bootstrap\Html::a('恢复',null,['class'=>'btn btn-warning']);
-            }else{echo \yii\bootstrap\Html::a('修改',['brand/edit','id'=>$brand->id],['class'=>'btn btn-warning']);
-        echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del']);}?></td>
+        <td><?php
+            if (\Yii::$app->user->can('brand/edit')){
+                echo \yii\bootstrap\Html::a('修改',['brand/edit','id'=>$brand->id],['class'=>'btn btn-warning']);
+            }
+                if (\Yii::$app->user->can('brand/delete')){
+                    echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del']);
+                }?></td>
     </tr>
     <?php endforeach;?>
-    <tr>
-        <td colspan="7"><?=\yii\bootstrap\Html::a('添加',['brand/add'],['class'=>'btn btn-info'])?></td>
-    </tr>
+    <?php if (\Yii::$app->user->can('brand/edit')){
+        echo '<tr>
+        <td colspan="7">'.
+            \yii\bootstrap\Html::a('添加',['brand/add'],['class'=>'btn btn-info']).'</td>
+    </tr>';
+    }
+    ?>
 </table>
 <?php
 echo \yii\widgets\LinkPager::widget([

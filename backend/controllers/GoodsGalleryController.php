@@ -2,6 +2,7 @@
 //商品相册
 namespace backend\controllers;
 
+use backend\filters\Rbacfilter;
 use backend\models\GoodsGallery;
 use yii\data\Pagination;
 
@@ -35,4 +36,14 @@ class GoodsGalleryController extends \yii\web\Controller
         \Yii::$app->session->setFlash('success','删除成功');
         return $this->redirect(['goods-gallery/index']);
     }
+//    //配置行为
+//    public function behaviors()
+//    {
+//        return [
+//            'rbac'=>[
+//                'class'=>Rbacfilter::class,
+//                'except'=>['']
+//            ]
+//        ];
+//    }
 }

@@ -2,23 +2,23 @@
     <thead>
     <tr>
         <th>名称</th>
-        <th>描述</th>
+        <th>路由</th>
         <th>操作</th>
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($permissions as $permission):?>
-        <tr date-name="<?=$permission->name?>">
-            <td><?=$permission->name?></td>
-            <td><?=$permission->description?></td>
-            <td><?php if (\Yii::$app->user->can('rbac/edit-permission')){echo \yii\bootstrap\Html::a('修改',['rbac/edit-permission','name'=>$permission->name],['class'=>'btn btn-warning']);}?>
-                <?php if (\Yii::$app->user->can('rbac/delete-permission')){echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del']);}?></td>
+    <?php foreach ($labels as $label):?>
+        <tr date-id="<?=$label->id?>">
+            <td><?=$label->name?></td>
+            <td><?=$label->route?></td>
+            <td><?php if (\Yii::$app->user->can('label/edit')){echo \yii\bootstrap\Html::a('修改',['label/edit','id'=>$label->id],['class'=>'btn btn-warning']);}?>
+                <?php if (\Yii::$app->user->can('label/delete')){echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del']);}?></td>
         </tr>
     <?php endforeach;?>
     </tbody>
-<?php if (\Yii::$app->user->can('rbac/add-permission')){
+<?php if (\Yii::$app->user->can('label/add')){
     echo '<tr>
-        <td colspan="3">'.\yii\bootstrap\Html::a('添加',['rbac/add-permission'],['class'=>'btn btn-info']).'</td>
+        <td colspan="3">'.\yii\bootstrap\Html::a('添加',['label/add'],['class'=>'btn btn-info']).'</td>
     </tr>';
 }
 ?>
@@ -62,12 +62,12 @@ $this->registerJs(<<<JS
  } );
 JS
 );
-$url=\yii\helpers\Url::to(['rbac/delete-permission']);
+$url=\yii\helpers\Url::to(['label/delete']);
 $this->registerJs(<<<JS
     $('.del').click(function() {
         if (confirm('你确定删除吗?')){
             var tr=$(this).closest('tr');
-            $.get('{$url}',{'name':tr.attr('date-name')},function(v) {
+            $.get('{$url}',{'id':tr.attr('date-id')},function(v) {
               if (v=='yes'){
                   tr.fadeOut();
               }

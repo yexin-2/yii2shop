@@ -2,6 +2,7 @@
 //文章分类
 namespace backend\controllers;
 
+use backend\filters\Rbacfilter;
 use backend\models\ArticleCategory;
 use yii\data\Pagination;
 
@@ -73,5 +74,15 @@ class ArticleCategoryController extends \yii\web\Controller
         }else{
             return json_encode('no');
         }
+    }
+    //配置行为
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>Rbacfilter::class,
+                'except'=>['']
+            ]
+        ];
     }
 }

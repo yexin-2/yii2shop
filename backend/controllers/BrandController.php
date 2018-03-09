@@ -134,12 +134,13 @@ class BrandController extends \yii\web\Controller
 //        };
     }
     //配置行为
-//    public function behaviors()
-//    {
-//        return [
-//            'rbac'=>[
-//                'class'=>Rbacfilter::class,
-//            ]
-//        ];
-//    }
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>Rbacfilter::class,
+                'except'=>['upload']
+            ]
+        ];
+    }
 }

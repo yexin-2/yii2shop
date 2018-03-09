@@ -18,16 +18,20 @@
             <td><?=$article->sort?></td>
             <td><?=$article->is_deleted?"删除":"正常"?></td>
             <td><?=date('Y-m-d',$article->create_time)?></td>
-            <td><?php if($article->is_deleted){
-
-                }else{echo \yii\bootstrap\Html::a('修改',['article/edit','id'=>$article->id],['class'=>'btn btn-info']);
-                    echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-info del']);
+            <td><?php if (\Yii::$app->user->can('article/edit')){
+                echo \yii\bootstrap\Html::a('修改',['article/edit','id'=>$article->id],['class'=>'btn btn-info']);}
+            if (\Yii::$app->user->can('article/delete')){
+                    echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-info del']);}
+                    if (\Yii::$app->user->can('article/look')){
                     echo \yii\bootstrap\Html::a('查看',['article/look','id'=>$article->id],['class'=>'btn btn-info']);}?></td>
         </tr>
     <?php endforeach;?>
-    <tr>
-        <td colspan="8"><?=\yii\bootstrap\Html::a('添加',['article/add'],['class'=>'btn btn-info'])?></td>
-    </tr>
+<?php if (\Yii::$app->user->can('article/add')){
+    echo '<tr>
+        <td colspan="8">'.\yii\bootstrap\Html::a('添加',['article/add'],['class'=>'btn btn-info']).'</td>
+    </tr>';
+}
+?>
 </table>
 <?php
 echo \yii\widgets\LinkPager::widget([

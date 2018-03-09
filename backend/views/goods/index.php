@@ -24,12 +24,17 @@ echo "<button type='submit' class='btn btn-primary'>搜索</button>";
         <td><?=$good->shop_price?></td>
         <td><?=$good->stock?></td>
         <td><?=\yii\bootstrap\Html::img($good->logo,['width'=>'50px'])?></td>
-        <td><?=\yii\bootstrap\Html::a('相册',['goods/pic','id'=>$good->id],['class'=>'btn btn-info'])?><?=\yii\bootstrap\Html::a('修改',['goods/edit','id'=>$good->id],['class'=>'btn btn-warning'])?><?=\yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del'])?></td>
+        <td><?php if (\Yii::$app->user->can('goods/pic')){echo \yii\bootstrap\Html::a('相册',['goods/pic','id'=>$good->id],['class'=>'btn btn-info']);}?>
+            <?php if (\Yii::$app->user->can('goods/edit')){echo \yii\bootstrap\Html::a('修改',['goods/edit','id'=>$good->id],['class'=>'btn btn-warning']);}?>
+            <?php if (\Yii::$app->user->can('goods/edit')){echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del']);}?></td>
     </tr>
     <?php endforeach;?>
-    <tr>
-        <td colspan="9"><?=\yii\bootstrap\Html::a('添加',['goods/add'],['class'=>'btn btn-info'])?></td>
-    </tr>
+<?php if (\Yii::$app->user->can('goods/add')){
+    echo '<tr>
+        <td colspan="9">'.\yii\bootstrap\Html::a('添加',['goods/add'],['class'=>'btn btn-info']).'</td>
+    </tr>';
+}
+?>
 </table>
 <?php
 echo \yii\widgets\LinkPager::widget([

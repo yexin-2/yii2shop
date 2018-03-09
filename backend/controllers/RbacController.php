@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\Rbacfilter;
 use backend\models\AddPermission;
 use backend\models\AddRole;
 use yii\data\Pagination;
@@ -170,5 +171,15 @@ class RbacController extends \yii\web\Controller
         }else{
             return json_encode('no');
         }
+    }
+    //配置行为
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>Rbacfilter::class,
+                'except'=>['']
+            ]
+        ];
     }
 }

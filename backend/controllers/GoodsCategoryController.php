@@ -2,6 +2,7 @@
 //商品分类
 namespace backend\controllers;
 
+use backend\filters\Rbacfilter;
 use backend\models\GoodsCategory;
 use yii\data\Pagination;
 use yii\db\Query;
@@ -116,5 +117,15 @@ class GoodsCategoryController extends \yii\web\Controller
 //            \Yii::$app->session->setFlash('danger','该分类下有子分类');
             return json_encode('nochild');
         }
+    }
+    //配置行为
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>Rbacfilter::class,
+                'except'=>['']
+            ]
+        ];
     }
 }

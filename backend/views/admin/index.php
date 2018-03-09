@@ -20,12 +20,17 @@
             <td><?=date('Y-m-d',$admin->updated_at)?></td>
             <td><?=date('Y-m-d',$admin->last_login_time)?></td>
             <td><?=$admin->last_login_ip?></td>
-            <td><?=\yii\bootstrap\Html::a('修改',['admin/edit','id'=>$admin->id],['class'=>'btn btn-warning'])?><?=\yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del'])?><?=\yii\bootstrap\Html::a('重置密码',['admin/update-pwd','id'=>$admin->id],['class'=>'btn btn-info'])?></td>
+            <td><?php if (\Yii::$app->user->can('admin/edit')){echo \yii\bootstrap\Html::a('修改',['admin/edit','id'=>$admin->id],['class'=>'btn btn-warning']);}?>
+                <?php if (\Yii::$app->user->can('admin/delete')){echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del']);}?>
+                <?php if (\Yii::$app->user->can('admin/update-pwd')){echo \yii\bootstrap\Html::a('重置密码',['admin/update-pwd','id'=>$admin->id],['class'=>'btn btn-info']);}?></td>
         </tr>
     <?php endforeach;?>
-    <tr>
-        <td colspan="9"><?=\yii\bootstrap\Html::a('添加',['admin/add'],['class'=>'btn btn-info'])?></td>
-    </tr>
+    <?php if (\Yii::$app->user->can('admin/add')){
+    echo '<tr>
+        <td colspan="9">'.\yii\bootstrap\Html::a('添加',['admin/add'],['class'=>'btn btn-info']).'</td>
+    </tr>';
+    }
+    ?>
 </table>
 <?php
 echo \yii\widgets\LinkPager::widget([
