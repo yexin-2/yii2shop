@@ -26,7 +26,7 @@ echo "<button type='submit' class='btn btn-primary'>搜索</button>";
         <td><?=\yii\bootstrap\Html::img($good->logo,['width'=>'50px'])?></td>
         <td><?php if (\Yii::$app->user->can('goods/pic')){echo \yii\bootstrap\Html::a('相册',['goods/pic','id'=>$good->id],['class'=>'btn btn-info']);}?>
             <?php if (\Yii::$app->user->can('goods/edit')){echo \yii\bootstrap\Html::a('修改',['goods/edit','id'=>$good->id],['class'=>'btn btn-warning']);}?>
-            <?php if (\Yii::$app->user->can('goods/edit')){echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del']);}?></td>
+            <?php if (\Yii::$app->user->can('goods/ajax-del')){echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del']);}?></td>
     </tr>
     <?php endforeach;?>
 <?php if (\Yii::$app->user->can('goods/add')){

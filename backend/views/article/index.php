@@ -20,7 +20,7 @@
             <td><?=date('Y-m-d',$article->create_time)?></td>
             <td><?php if (\Yii::$app->user->can('article/edit')){
                 echo \yii\bootstrap\Html::a('修改',['article/edit','id'=>$article->id],['class'=>'btn btn-info']);}
-            if (\Yii::$app->user->can('article/delete')){
+            if (\Yii::$app->user->can('article/ajax-del')){
                     echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-info del']);}
                     if (\Yii::$app->user->can('article/look')){
                     echo \yii\bootstrap\Html::a('查看',['article/look','id'=>$article->id],['class'=>'btn btn-info']);}?></td>

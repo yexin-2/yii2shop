@@ -15,7 +15,7 @@
         <td><?=$articleCategory->sort?></td>
         <td><?=$articleCategory->is_deleted?"删除":"正常"?></td>
         <td><?php if (\Yii::$app->user->can('article-category/edit')){echo  \yii\bootstrap\Html::a('修改',['article-category/edit','id'=>$articleCategory->id],['class'=>'btn btn-info']);}
-            if (\Yii::$app->user->can('article-category/delete')){
+            if (\Yii::$app->user->can('article-category/ajax-del')){
         echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-info del']);}?></td>
     </tr>
     <?php endforeach;?>

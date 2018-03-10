@@ -20,7 +20,7 @@
             if (\Yii::$app->user->can('brand/edit')){
                 echo \yii\bootstrap\Html::a('修改',['brand/edit','id'=>$brand->id],['class'=>'btn btn-warning']);
             }
-                if (\Yii::$app->user->can('brand/delete')){
+                if (\Yii::$app->user->can('brand/ajax-del')){
                     echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del']);
                 }?></td>
     </tr>

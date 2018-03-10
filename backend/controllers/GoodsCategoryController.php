@@ -102,7 +102,7 @@ class GoodsCategoryController extends \yii\web\Controller
     //ajax删除
     public function actionAjaxDel($id){
         $model=GoodsCategory::findOne(['id'=>$id]);
-        $child=GoodsCategory::find()->where(['parent_id'=>$id]);
+        $child=GoodsCategory::find()->where(['parent_id'=>$id])->all();
         if ($child==null){
             if ($model->parent_id){
                 $model->delete();

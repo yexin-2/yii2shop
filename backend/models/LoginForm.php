@@ -36,7 +36,7 @@ class LoginForm extends Model{
                 \Yii::$app->user->login($admin,$duration);//保存登录信息
                 $admin->last_login_time=time();
                 $admin->last_login_ip=$_SERVER['REMOTE_ADDR'];
-                $admin->save();
+                $admin->save(0);
 //                //自动登录
 //                if ($this->auto_login!=null){
 //                    $cookies = \Yii::$app->response->cookies;//可写

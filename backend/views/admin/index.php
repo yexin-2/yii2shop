@@ -21,7 +21,7 @@
             <td><?=date('Y-m-d',$admin->last_login_time)?></td>
             <td><?=$admin->last_login_ip?></td>
             <td><?php if (\Yii::$app->user->can('admin/edit')){echo \yii\bootstrap\Html::a('修改',['admin/edit','id'=>$admin->id],['class'=>'btn btn-warning']);}?>
-                <?php if (\Yii::$app->user->can('admin/delete')){echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del']);}?>
+                <?php if (\Yii::$app->user->can('admin/ajax-del')){echo \yii\bootstrap\Html::a('删除',null,['class'=>'btn btn-danger del']);}?>
                 <?php if (\Yii::$app->user->can('admin/update-pwd')){echo \yii\bootstrap\Html::a('重置密码',['admin/update-pwd','id'=>$admin->id],['class'=>'btn btn-info']);}?></td>
         </tr>
     <?php endforeach;?>
