@@ -73,7 +73,7 @@ class MemberController extends \yii\web\Controller
                         $value=unserialize($cookies->getValue('cart'));
                         foreach ($value as $key=>$v){//[2=>12.3=>15]
                             $goods=Cart::findOne(['goods_id'=>$key]);
-                            if ($goods){//如果有该商品在数据库
+                            if ($goods&&$goods->member_id==\Yii::$app->user->id){//如果有该商品在数据库,并且是该登录的用户
                                 $goods->amount+=$v;
                             }else{//没有
                                 $goods->goods_id=$key;
