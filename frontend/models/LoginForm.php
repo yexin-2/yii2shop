@@ -31,7 +31,7 @@ class LoginForm extends Model{
                 \Yii::$app->session->setFlash('success','登录成功');
                 return true;
             }
-            $this->addError('username','用户名或密码错误');
         }
+        $this->addError('username','用户名或密码错误');
     }
 }

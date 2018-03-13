@@ -84,7 +84,7 @@
                     </li>
                     <li>
                         <label for="">邮箱：</label>
-                        <input type="text" class="txt" name="email" />
+                        <input type="text" class="txt" name="email" id="email" />
                         <p>邮箱必须合法</p>
                     </li>
                     <li>
@@ -93,7 +93,7 @@
                     </li>
                     <li>
                         <label for="">验证码：</label>
-                        <input type="text" class="txt" value="" placeholder="请输入短信验证码" name="captcha" disabled="disabled" id="captcha"/> <input type="button" onclick="bindPhoneNum(this)" id="get_captcha" value="获取验证码" style="height: 25px;padding:3px 8px"/>
+                        <input type="text" class="txt" value="" placeholder="请输入短信验证码" name="code" disabled="disabled" id="code"/> <input type="button" onclick="bindPhoneNum(this)" id="get_captcha" value="获取验证码" style="height: 25px;padding:3px 8px"/>
 
                     </li>
                     <li class="checkcode">
@@ -189,18 +189,59 @@
                 },
                 email: {
                     required: true,
-                    email: true
+                    email: true,
+                    remote:{
+                        url: "<?=\yii\helpers\Url::to(['member/validate-email'])?>",     //后台处理程序
+                        type: "get",               //数据发送方式
+                        dataType: "json",           //接受数据格式
+                        data: {                     //要传递的数据
+                            email: function() {
+                                return $("#email").val();
+                            }
+                        }
+                    }
                 },
-                tel:{
-                    required: true,
-                    number:true
-                },
+//                tel:{
+//                    required: true,
+//                    number:true
+//                },
                 topic: {
                     required: "#newsletter:checked",
                     minlength: 2
                 },
                 agree: "required",
-                captcha:"validateCaptcha"
+                captcha:"validateCaptcha",
+                tel:{
+                    required: true,
+                    validateTel:true,
+                    remote:{
+                        url: "<?=\yii\helpers\Url::to(['member/validate-tel'])?>",     //后台处理程序
+                        type: "get",               //数据发送方式
+                        dataType: "json",           //接受数据格式
+                        data: {                     //要传递的数据
+                            tel: function() {
+                                return $("#tel").val();
+                            }
+                        }
+                    }
+                },
+                code: {
+                    required: true,
+                    minlength: 4,
+                    remote: {
+                        url: "<?=\yii\helpers\Url::to(['member/validate-code'])?>",     //后台处理程序
+                        type: "get",               //数据发送方式
+                        dataType: "json",           //接受数据格式
+                        data: {                     //要传递的数据
+                            tel: function() {
+                                return $("#tel").val();
+                            },
+                            code:function () {
+                                return $("#code").val();
+                            }
+                        }
+                    }
+                }
             },
             messages: {
                 firstname: "请输入您的名字",
@@ -219,17 +260,34 @@
                     minlength: "密码长度不能小于 5 个字母",
                     equalTo: "两次密码输入不一致"
                 },
-                email: "请输入一个正确的邮箱",
-                tel:"请输入一个正确的手机号码",
+                email: {
+                    required: "请输入邮箱",
+                    email:"请输入一个正确的邮箱",
+                    remote:"邮箱已存在"
+                },
+//                tel:"请输入一个正确的手机号码",
                 agree: "请接受我们的声明",
-                topic: "请选择两个主题"
+                topic: "请选择两个主题",
+                tel:{
+                    required: "请输入电话号码",
+                    remote:"电话号码已存在"
+                },
+                code:{
+                    required:"请输入手机验证码",
+                    minlength: "验证码长度不能小于 4 位",
+                    remote:'手机验证码错误'
+                }
             },
             errorElement:'span'
         })
     });
+    jQuery.validator.addMethod("validateTel", function(value, element) {
+        var tel = /^[0-9]{11}$/;
+        return this.optional(element) || (tel.test(value));
+    }, "请正确填写您的手机号码");
     function bindPhoneNum(){
         //启用输入框
-        $('#captcha').prop('disabled',false);
+        $('#code').prop('disabled',false);
 
         var time=30;
         var interval = setInterval(function(){
@@ -265,6 +323,16 @@
         var hash = $('body').data('captcha');
         return h==hash;//返回验证结果 true false
     }, "验证码错误");
+    $('#get_captcha').click(function () {
+        var tel=$('#tel').val();
+        $.getJSON('sms.html',{'tel':tel},function (v) {
+            if (v=='yes'){
+                alert('发送成功');
+            }else {
+                alert('发送失败');
+            }
+        })
+    })
 </script>
 </body>
 </html>

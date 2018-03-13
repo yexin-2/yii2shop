@@ -1,16 +1,16 @@
 <?php
-
+//收货地址
 namespace frontend\controllers;
 
 use frontend\models\Address;
 
 class AddressController extends \yii\web\Controller
 {
-    public function actionIndex()
-    {
-        $address=Address::find()->all();
-        return $this->render('index',['address'=>$address]);
-    }
+//    public function actionIndex()
+//    {
+//        $address=Address::find()->where(['member_id'=>\Yii::$app->user->id])->all();
+//        return $this->render('index',['address'=>$address]);
+//    }
     public function actionAdd(){
         $model=new Address();
         $request=\Yii::$app->request;
@@ -25,7 +25,7 @@ class AddressController extends \yii\web\Controller
                     $v->status=0;
                     $v->save();
                 }
-                return $this->redirect(['address/index2']);
+                return $this->redirect(['address/index']);
             }else{
                 var_dump($model->getErrors());exit;
             }
@@ -53,7 +53,7 @@ class AddressController extends \yii\web\Controller
                     $v->status=0;
                     $v->save();
                 }
-                return $this->redirect(['address/index2']);
+                return $this->redirect(['address/index']);
             }else{
                 var_dump($model->getErrors());exit;
             }
@@ -79,7 +79,7 @@ class AddressController extends \yii\web\Controller
         }
         $address->status=1;
         $address->save();
-        return $this->redirect(['address/index2']);
+        return $this->redirect(['address/index']);
     }
     public function actionValidateCp($cmbProvince){
         if ($cmbProvince=="请选择省份"){
@@ -93,6 +93,14 @@ class AddressController extends \yii\web\Controller
         }
         return "true";
     }
+//    //验证电话号码是否重复
+//    public function actionValidateTel($tel){
+//        $phone=Address::findOne(['tel'=>$tel])->tel??"";
+//        if ($phone==$tel){
+//            return 'false';
+//        }
+//        return 'true';
+//    }
     public function actionValidateCa($cmbArea){
         if ($cmbArea=="请选择区县"){
             return "false";
@@ -100,9 +108,9 @@ class AddressController extends \yii\web\Controller
         return "true";
     }
     //ajax页
-    public function actionIndex2(){
-        $address=Address::find()->all();
-        return $this->render('index2',['address'=>$address]);
+    public function actionIndex(){
+        $address=Address::find()->where(['member_id'=>\Yii::$app->user->id])->all();
+        return $this->render('index',['address'=>$address]);
     }
     //ajax修改回显
     public function actionAjax($id){

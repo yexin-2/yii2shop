@@ -28,28 +28,11 @@
     <link rel="stylesheet" href="/style/address.css" type="text/css">
     <link rel="stylesheet" href="/style/bottomnav.css" type="text/css">
     <link rel="stylesheet" href="/style/footer.css" type="text/css">
-    <style type="text/css">
-        input.error { border: 1px solid red; }
-        span.error {
-            /*background:url("./demo/images/unchecked.gif") no-repeat 0px 0px;*/
-
-            padding-left: 16px;
-
-            padding-bottom: 2px;
-
-            font-weight: bold;
-
-            color: #EA5200;
-        }
-        span.checked {
-            /*background:url("./demo/images/checked.gif") no-repeat 0px 0px;*/
-        }
-    </style>
 
     <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="/js/header.js"></script>
     <script type="text/javascript" src="/js/home.js"></script>
-    <script type="text/javascript" src="/js/address.js"></script>
+<!--    <script type="text/javascript" src="/js/address.js"></script>-->
 </head>
 <body>
 <!-- 顶部导航 start -->
@@ -60,7 +43,7 @@
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！<?php if (\Yii::$app->user->isGuest){echo '[<a href="'.\yii\helpers\Url::to(['member/login']).'">登录</a>] [<a href="'.\yii\helpers\Url::to(['member/regist']).'">免费注册</a>]';}else{echo \Yii::$app->user->identity->username; echo \yii\bootstrap\Html::a('退出',['member/logout']);}  ?></li>
+                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
@@ -501,53 +484,18 @@
         <div class="address_hd">
             <h3>收货地址薄</h3>
             <?php foreach ($address as $addres):?>
-                <dl date-id="<?=$addres->id?>">
-                    <dt><?=$addres->id?>.<?=$addres->name?> <?=$addres->cmbProvince?> <?=$addres->cmbCity?> <?=$addres->cmbArea?> <?=$addres->address?> <?=$addres->tel?> </dt>
-                    <dd>
-                        <?=\yii\bootstrap\Html::a('修改',null,['class'=>'edit'])?>
-                        <?=\yii\bootstrap\Html::a('删除',null,['class'=>'del'])?>
-                        <?php if($addres->status==0) echo \yii\bootstrap\Html::a('设为默认地址',['address/set-status','id'=>$addres->id])?>
-                        <!--                    <a href="">设为默认地址</a>-->
-                    </dd>
-                </dl>
+            <dl date-id="<?=$addres->id?>">
+                <dt><?=$addres->id?>.<?=$addres->name?> <?=$addres->cmbProvince?> <?=$addres->cmbCity?> <?=$addres->cmbArea?> <?=$addres->address?> <?=$addres->tel?> </dt>
+                <dd>
+                    <?=\yii\bootstrap\Html::a('修改',['address/edit','id'=>$addres->id])?>
+                    <?=\yii\bootstrap\Html::a('删除',null,['class'=>'del'])?>
+                    <?php if($addres->status==0) echo \yii\bootstrap\Html::a('设为默认地址',['address/set-status','id'=>$addres->id])?>
+<!--                    <a href="">设为默认地址</a>-->
+                </dd>
+            </dl>
             <?php endforeach;?>
         </div>
-        <div class="address_bd mt10">
-            <h4>新增收货地址</h4>
-            <form action="<?=\yii\helpers\Url::to(['address/add'])?>" name="address_form" id="signupForm" method="post">
-                <ul>
-                    <li>
-                        <label for=""><span>*</span>收 货 人：</label>
-                        <input type="text" name="name" class="txt" id="name" />
-                        <input type="hidden" name="id" class="txt" id="id"/>
-                    </li>
-                    <li>
-                        <label for=""><span>*</span>所在地区：</label>
-                        <select id="cmbProvince" name="cmbProvince"></select>
-                        <select id="cmbCity" name="cmbCity"></select>
-                        <select id="cmbArea" name="cmbArea"></select>
-                        <!--                        <input type="text" value="详细地址" onblur="if(this.value=''){this.value='详细地址'}" onfocus="if(this.value='详细地址'){this.value='';this.style.color='#ff0000'}">-->
-                    </li>
-                    <li>
-                        <label for=""><span>*</span>详细地址：</label>
-                        <input type="text" name="address" class="txt address" id="address" />
-                    </li>
-                    <li>
-                        <label for=""><span>*</span>手机号码：</label>
-                        <input type="text" name="tel" class="txt" id="tel" />
-                    </li>
-                    <li>
-                        <label for="">&nbsp;</label>
-                        <input type="checkbox" name="status" class="check" value="1" id="status"/>设为默认地址
-                    </li>
-                    <li>
-                        <label for="">&nbsp;</label>
-                        <input type="submit" name="" class="btn" id="btn" value="保存" />
-                    </li>
-                </ul>
-                <input type="hidden" name="<?=\Yii::$app->request->csrfParam?>" value="<?=\Yii::$app->request->csrfToken?>"/>
-            </form>
-        </div>
+
 
     </div>
     <!-- 右侧内容区域 end -->
@@ -645,111 +593,14 @@
         <a href=""><img src="/images/beian.gif" alt="" /></a>
     </p>
 </div>
+
 <!-- 底部版权 end -->
-<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
 <script type="text/javascript">
-    addressInit('cmbProvince', 'cmbCity', 'cmbArea');
-    $().ready(function() {
-// 在键盘按下并释放及提交后验证提交表单
-        $("#signupForm").validate({
-            rules: {
-                name: {
-                    required: true,
-                    minlength: 2
-                },
-                address: {
-                    required: true
-//                    minlength: 5
-                },
-//                tel:{
-//                    required: true,
-//                    number:true
-//                },
-                cmbProvince:{
-                    remote: {
-                        url: "<?=\yii\helpers\Url::to(['address/validate-cp'])?>",     //后台处理程序
-                        type: "get",               //数据发送方式
-                        dataType: "json",           //接受数据格式
-                        data: {                     //要传递的数据
-                            cmbProvince: function() {
-                                return $("#cmbProvince").val();
-                            }
-                        }
-                    }
-                },
-                cmbCity:{
-                    remote: {
-                        url: "<?=\yii\helpers\Url::to(['address/validate-cc'])?>",     //后台处理程序
-                        type: "get",               //数据发送方式
-                        dataType: "json",           //接受数据格式
-                        data: {                     //要传递的数据
-                            cmbCity: function() {
-                                return $("#cmbCity").val();
-                            }
-                        }
-                    }
-                },
-                cmbArea:{
-                    remote: {
-                        url: "<?=\yii\helpers\Url::to(['address/validate-ca'])?>",     //后台处理程序
-                        type: "get",               //数据发送方式
-                        dataType: "json",           //接受数据格式
-                        data: {                     //要传递的数据
-                            cmbArea: function() {
-                                return $("#cmbArea").val();
-                            }
-                        }
-                    }
-                },
-                agree: "required",
-//                tel:{
-//                    validateTel:true,
-//                    remote:{
-//                        url: "<?//=\yii\helpers\Url::to(['address/validate-tel'])?>//",     //后台处理程序
-//                        type: "get",               //数据发送方式
-//                        dataType: "json",           //接受数据格式
-//                        data: {                     //要传递的数据
-//                            tel: function() {
-//                                return $("#tel").val();
-//                            }
-//                        }
-//                    }
-//                }
-            },
-            messages: {
-                name: {
-                    required: "请输入用户名",
-                    minlength: "用户名必需由两个字母组成",
-                    remote:"用户名重复"
-                },
-                address: {
-                    required: "请输入详细地址"
-//                    minlength: "密码长度不能小于 5 个字母",
-                },
-//                tel:"请输入一个正确的手机号码",
-                cmbProvince:{
-                    remote:"省份不能为空"
-                },
-                cmbCity:{
-                    remote:"城市不能为空"
-                },
-                cmbArea:{
-                    remote:"区县不能为空"
-                },
-//                tel:{
-//                    remote:"电话号码已存在"
-//                }
-            },
-            errorElement:'span'
-        })
-    });
-//    jQuery.validator.addMethod("validateTel", function(value, element) {
-//        var tel = /^[0-9]{11}$/;
-//        return this.optional(element) || (tel.test(value));
-//    }, "请正确填写您的手机号码");
+//    addressInit('cmbProvince', 'cmbCity', 'cmbArea');
     $('.del').click(function() {
         if (confirm('你确定删除吗?')){
             var dl=$(this).closest('dl');
+            console.log(dl.attr('date-id'));
             $.get("delete.html",{'id':dl.attr('date-id')},function(v) {
                 if (v=='yes'){
                     dl.fadeOut();
@@ -757,25 +608,7 @@
                 }
             },'json')
         }
-    });
-    $('.edit').click(function () {
-        var dl=$(this).closest('dl');
-        $.get('ajax.html',{'id':dl.attr('date-id')},function(v) {
-            $('#id').val(v.id);
-            $('#name').val(v.name);
-            $('#address').val(v.address);
-            $('#tel').val(v.tel);
-            if (v.status==1){
-                $('#status').prop('checked',true);
-            }else {
-                $('#status').prop('checked',false);
-            }
-            addressInit('cmbProvince', 'cmbCity', 'cmbArea','',v.cmbProvince,v.cmbCity,v.cmbArea);
-        },'json')
-        $("#signupForm").attr('action',"<?=\yii\helpers\Url::to(['address/edit'])?>");
-    });
-
-
+    })
 </script>
 </body>
 </html>

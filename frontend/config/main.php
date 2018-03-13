@@ -49,6 +49,14 @@ return [
             ],
         ],
 
+        'sms' => [
+            'class'=>\frontend\aliyun\SmsHandler::class,
+            'ak'=>'LTAIENqt8xrTlIy8',
+            'sk'=>'5q5RYaFX5PXPvNmEmvd8jKS2lkhZd8',
+            'sign'=>'小叶茶坊',
+            'template'=>'SMS_126915009'
+        ]
+
     ],
     'params' => $params,
 ];

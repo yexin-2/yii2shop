@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use frontend\controllers\MemberController;
 use Yii;
 use yii\web\IdentityInterface;
 
@@ -24,6 +25,7 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
 {
     public $password;
     public $captcha;
+    public $code;
     /**
      * @inheritdoc
      */
@@ -38,7 +40,7 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password_hash', 'email', 'tel'], 'required'],
+            [['username', 'password_hash', 'email', 'tel','code'], 'required'],
             [['last_login_time', 'status', 'created_at', 'updated_at'], 'integer'],
             [['username'], 'string', 'max' => 50],
             [['auth_key'], 'string', 'max' => 32],
@@ -47,10 +49,21 @@ class Member extends \yii\db\ActiveRecord implements IdentityInterface
             [['last_login_ip'], 'string', 'max' => 255],
             [['email'], 'unique'],
             [['tel'], 'unique'],
-            ['captcha','captcha','captchaAction'=>'member/captcha']
+            ['captcha','captcha','captchaAction'=>'member/captcha'],
+            ['code','validateCode']
         ];
     }
-
+    public function validateCode(){
+        $redis=new \Redis();
+        $redis->connect('127.0.0.1');
+        $real_code=$redis->get('code-'.$this->tel);
+        if ($this->code==null){
+            return false;
+        }
+        if ($real_code!=$this->code){
+            return false;
+        }
+    }
     /**
      * @inheritdoc
      */

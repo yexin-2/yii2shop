@@ -24,6 +24,7 @@ $(function(){
 		});
 
 		$("#total").text(total.toFixed(2));
+		ChangeAmount($(this).closest('tr').attr('date-id'),$(amount).val());
 	});
 
 	//增加
@@ -40,6 +41,7 @@ $(function(){
 		});
 
 		$("#total").text(total.toFixed(2));
+		ChangeAmount($(this).closest('tr').attr('date-id'),$(amount).val());
 	});
 
 	//直接输入
@@ -58,6 +60,16 @@ $(function(){
 		});
 
 		$("#total").text(total.toFixed(2));
-
+        ChangeAmount($(this).closest('tr').attr('date-id'),$(this).val());
 	});
+	//删除
+	$(".del_num").click(function () {
+		if (confirm("你确定要删除吗?")){
+            $(this).closest('tr').fadeOut();
+            ChangeAmount($(this).closest('tr').attr('date-id'),0);
+		}
+    })
 });
+function ChangeAmount($goods_id,$amount) {
+	$.get('/goods/ajax-cart.html',{'goods_id':$goods_id,'amount':$amount})
+}

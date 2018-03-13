@@ -172,7 +172,8 @@
                     minlength: 5
                 },
                 agree: "required",
-                captcha:"validateCaptcha"
+                captcha:"validateCaptcha",
+                tel:"validateTel"
             },
             messages: {
                 username: {
@@ -188,6 +189,10 @@
             errorElement:'span'
         })
     });
+    jQuery.validator.addMethod("validateTel", function(value, element) {
+        var tel = /^[0-9]{11}$/;
+        return this.optional(element) || (tel.test(value));
+    }, "请正确填写您的手机号码");
     $("#change_captcha").click(function () {
         //获取新验证码图片的url
         $.getJSON('<?=\yii\helpers\Url::to(['member/captcha','refresh'=>1])?>',function(data){
