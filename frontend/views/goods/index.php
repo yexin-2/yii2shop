@@ -94,7 +94,7 @@
                 </dt>
                 <dd>
                     <div class="prompt">
-                        您好，请<a href="">登录</a>
+                        您好，<?php if (\Yii::$app->user->isGuest){echo '请<a href="'.\yii\helpers\Url::to(['member/login']).'">登录</a>';}else{echo \Yii::$app->user->identity->username;} ?>
                     </div>
                     <div class="uclist mt10">
                         <ul class="list1 fl">
@@ -130,7 +130,7 @@
         <div class="cart fl">
             <dl>
                 <dt>
-                    <a href="">去购物车结算</a>
+                    <a href="<?=\yii\helpers\Url::to(['goods/cart'])?>">去购物车结算</a>
                     <b></b>
                 </dt>
                 <dd>

@@ -76,6 +76,7 @@ class MemberController extends \yii\web\Controller
                             if ($goods&&$goods->member_id==\Yii::$app->user->id){//如果有该商品在数据库,并且是该登录的用户
                                 $goods->amount+=$v;
                             }else{//没有
+                                $goods=new Cart();
                                 $goods->goods_id=$key;
                                 $goods->amount=$v;
                                 $goods->member_id=\Yii::$app->user->id;

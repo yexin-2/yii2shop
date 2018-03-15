@@ -59,7 +59,7 @@ class GoodsController extends Controller
         }else{
             //登录状态
             $cart=Cart::findOne(['goods_id'=>$goods_id]);
-            if ($cart){
+            if ($cart&&$cart->member_id==\Yii::$app->user->id){
                 $cart->amount+=$amount;
                 $cart->save();
             }else{
