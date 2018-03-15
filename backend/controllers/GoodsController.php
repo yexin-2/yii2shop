@@ -171,7 +171,7 @@ class GoodsController extends \yii\web\Controller
             'upload' => [
                 'class' => 'kucha\ueditor\UEditorAction',
                 'config' => [
-                    "imageUrlPrefix"  => \Yii::getAlias('@web'),//图片访问路径前缀
+                    "imageUrlPrefix"  => \Yii::getAlias('@webroot'),//图片访问路径前缀
                 ],
             ]
         ];
