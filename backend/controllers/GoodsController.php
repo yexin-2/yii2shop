@@ -171,7 +171,7 @@ class GoodsController extends \yii\web\Controller
             'upload' => [
                 'class' => 'kucha\ueditor\UEditorAction',
                 'config' => [
-                    "imageUrlPrefix"  => "http://admin.yii2shop.com",//图片访问路径前缀
+                    "imageUrlPrefix"  => "http://admin.yexin.ink",//图片访问路径前缀
                 ],
             ]
         ];
