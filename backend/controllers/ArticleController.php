@@ -96,7 +96,7 @@ class ArticleController extends \yii\web\Controller
             'upload' => [
                 'class' => 'kucha\ueditor\UEditorAction',
                 'config' => [
-                    "imageUrlPrefix"  => \Yii::getAlias('@web'),//图片访问路径前缀
+                    "imageUrlPrefix"  => "http://admin.yexin.ink",//图片访问路径前缀
                 ],
             ]
         ];
